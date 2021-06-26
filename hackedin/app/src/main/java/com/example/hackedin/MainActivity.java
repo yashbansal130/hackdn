@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -26,24 +27,25 @@ public class MainActivity extends AppCompatActivity {
     TextView loginActivity;
     Button buttonloginSubmit;
     App app;
-    private static final String appID = "hachedin-giiqj";
+    private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG =MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         signupEmail = findViewById(R.id.input_signup_email);
         signupPassword = findViewById(R.id.input_signup_password);
         registerButton = findViewById(R.id.register_button);
         loginActivity = findViewById(R.id.login_activity);
-        String email = signupEmail.getText().toString();
-        String pwd = signupPassword.getText().toString();
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(appID).build());
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = signupEmail.getText().toString();
+                String pwd = signupPassword.getText().toString();
                 app.getEmailPassword().registerUserAsync(email, pwd, it ->
                 {
                     if (it.isSuccess()) {
