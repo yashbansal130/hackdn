@@ -31,5 +31,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("AUTH", it.getError().toString());
             }
         });
+        app.getEmailPassword().registerUserAsync("iisdjsd.gmail.com","dnsdijs",it->
+        {
+            if(it.isSuccess()) {
+            }
+            else
+            {
+
+            }
+        });
+
     }
 }
