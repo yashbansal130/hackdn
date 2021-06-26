@@ -8,27 +8,32 @@
     <ActionMenuView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    
-    <ActionMenuView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="To"
+        android:id="@+id/toContent"
         android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ccContent"
+        android:hint="CC"
+        android:layout_marginBottom="8dp"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Subject"
+        android:id="@+id/subContent"
         android:layout_marginBottom="8dp"/>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:drawSelectorOnTop="true"
-        android:entries="@array/scheduler"
         android:layout_marginBottom="8dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown">
@@ -38,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="Mail Body"
+        android:id="@+id/bodyContent"
         android:gravity="left"
         android:layout_marginBottom="8dp"/>
 
