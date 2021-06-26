@@ -53,11 +53,6 @@ public class Login extends AppCompatActivity {
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
                         Log.v("AUTH", "Successfully authenticated using an email and password.");
-                        SharedPreferences sharedPref = getSharedPreferences("sharedPref" ,Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("email",email);
-                        editor.putString("password", password);
-                        editor.commit();
                         user=app.currentUser();
                         userDetail.setUser(user);
                         Intent intent = new Intent(Login.this, home.class);
@@ -70,4 +65,5 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
 }
