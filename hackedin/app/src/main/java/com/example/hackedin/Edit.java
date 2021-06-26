@@ -15,8 +15,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import android.view.Menu;
-
-
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -53,9 +57,6 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timings);
         spin.setAdapter(adapter);
-
-
-
     }
     public void onSave()
     {

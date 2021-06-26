@@ -44,14 +44,6 @@ public class Login extends AppCompatActivity {
         inputPassword = findViewById(R.id.input_login_password);
         app = new App(new AppConfiguration.Builder(appID).build());
 
-        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
-        String email = pref.getString("email",null);
-        String password = pref.getString("password", null);
-        if(email!=null && password!=null){
-            inputEmail.setText(email);
-            inputPassword.setText(password);
-        }
-
         buttonloginSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +52,11 @@ public class Login extends AppCompatActivity {
                 Credentials emailPasswordCredentials = Credentials.emailPassword(email, password);
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
-                        Log.v("AUTH", "Successfully authenticated using an email and password.");
+                        Log.v("AUTH", "Successfully authenticated using an email and password.")
+                        SharedPreferences sharedPref = getSharedPreferences("sharedPref" ,Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("email",email);
+                        editor.putString("password", password);
                         user=app.currentUser();
                         userDetail.setUser(user);
                         Intent intent = new Intent(Login.this, home.class);
