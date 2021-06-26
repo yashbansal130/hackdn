@@ -28,8 +28,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         buttonloginSubmit = (Button) findViewById(R.id.login_button);
-        inputEmail = findViewById(R.id.input_email);
-        inputPassword = findViewById(R.id.input_password);
+        inputEmail = findViewById(R.id.input_login_email);
+        inputPassword = findViewById(R.id.input_signup_password);
         Realm.init(this);
         app = new App(new AppConfiguration.Builder("application-0-aybxr").build());
 
