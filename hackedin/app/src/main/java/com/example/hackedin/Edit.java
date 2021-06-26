@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -33,6 +34,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter= new ArrayAdapter( this,  android.R.layout.simple_spinner_item,timings);
         spin.setAdapter(adapter);
+        Button saveButton=(Button)findViewById(R.id.action_save);
+
         String toData=toEdit.getText().toString();
         String ccData=ccEdit.getText().toString();
 
