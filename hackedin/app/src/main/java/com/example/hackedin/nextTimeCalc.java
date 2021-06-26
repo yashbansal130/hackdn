@@ -1,16 +1,17 @@
 package com.example.hackedin;
 
-public class nextTimeCalc {
-    public static int emailType;
-    public static long current;
-    public static long next;
-    public nextTimeCalc()
-    {
+public  class nextTimeCalc {
+    public  int emailType;
+    public long current;
+    public  long next;
+
+    public nextTimeCalc(int emailType, long currentTime) {
         this.emailType=emailType;
         this.current=current;
         next=0;
     }
-    public static long getNextTime()
+
+    public long getNextTime()
     {
         switch(emailType)
         {

@@ -18,7 +18,6 @@ import android.widget.Spinner;
 import android.view.Menu;
 
 
-
 import org.bson.Document;
 
 import java.util.Calendar;
@@ -40,7 +39,7 @@ import io.realm.mongodb.mongo.MongoClient;
 import io.realm.mongodb.mongo.MongoCollection;
 import io.realm.mongodb.mongo.MongoDatabase;
 
-public class Edit extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class Edit extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     User user;
     App app;
     EditText toEdit;
@@ -51,15 +50,16 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     String ccData;
     String bodyData;
     String subData;
-    String[] timings = {"Recurring", "Weekly","Monthly", "Yearly",};
+    String[] timings = {"Recurring", "Weekly", "Monthly", "Yearly",};
     private static int emailType;
     private static final String appID = "application-0-aybxr";
-    private static final String LOG_TAG =Edit.class.getSimpleName();
+    private static final String LOG_TAG = Edit.class.getSimpleName();
     MongoClient mongoClient;
     MongoDatabase mongoDatabase;
     MongoCollection<Document> mongoCollection;
-    long  currentTime;
+    long currentTime;
     long nextTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Realm.init(this);
@@ -71,39 +71,37 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         ccEdit = (EditText) findViewById(R.id.ccContent);
         bodyEdit = (EditText) findViewById(R.id.bodyContent);
         subEdit = (EditText) findViewById(R.id.subContent);
-        Spinner spin =(Spinner) findViewById(R.id.spinner);
+        Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timings);
         spin.setAdapter(adapter);
 
-        mongoClient=user.getMongoClient("mongodb-atlas");
-        mongoDatabase=mongoClient.getDatabase("users");
-       mongoCollection=mongoDatabase.getCollection("emails");
+        mongoClient = user.getMongoClient("mongodb-atlas");
+        mongoDatabase = mongoClient.getDatabase("users");
+        mongoCollection = mongoDatabase.getCollection("emails");
 
     }
-    public void onSave()
-    {
+
+    public void onSave() {
         toData = toEdit.getText().toString();
         ccData = ccEdit.getText().toString();
         bodyData = bodyEdit.getText().toString();
         subData = subEdit.getText().toString();
         currentTime = System.currentTimeMillis() / 1000L;
-        nextTime=nextTimeCalc.getNextTime();
-
-        mongoCollection.insertOne(new Document("userId",user.getId()).append("To",toData).append("CC",ccData).append("Body",
-                bodyData).append("Subject",subData).append("EmailType",emailType).append("TimeOnSet",currentTime).
-                append("TimeNext",nextTime).append("sentCount",0)).getAsync(result->{
-                    if(result.isSuccess())
-                    {
-                        Log.v(LOG_TAG,"Insertion is successful");
-                    }
-                    else
-                    {
-                        Log.v(LOG_TAG,"INsertion was not successful"+result.getError().toString());
-                    }
+        nextTimeCalc nextCalc = new nextTimeCalc(emailType, currentTime);
+        nextTime = nextCalc.getNextTime();
+        mongoCollection.insertOne(new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
+                bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).
+                append("TimeNext", nextTime).append("sentCount", 0)).getAsync(result -> {
+            if (result.isSuccess()) {
+                Log.v(LOG_TAG, "Insertion is successful");
+            } else {
+                Log.v(LOG_TAG, "INsertion was not successful" + result.getError().toString());
+            }
         });
 
     }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         emailType = position;
@@ -119,6 +117,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         getMenuInflater().inflate(R.menu.editor_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

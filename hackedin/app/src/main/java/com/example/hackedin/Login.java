@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("email",email);
                         editor.putString("password", password);
+                        editor.commit();
                         user=app.currentUser();
                         userDetail.setUser(user);
                         Intent intent = new Intent(Login.this, home.class);
