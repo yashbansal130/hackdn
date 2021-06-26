@@ -31,10 +31,10 @@ public class Login extends AppCompatActivity {
     EditText inputPassword;
     Button buttonloginSubmit;
     App app;
-
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG =Login.class.getSimpleName();
     User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +43,6 @@ public class Login extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_login_email);
         inputPassword = findViewById(R.id.input_login_password);
         app = new App(new AppConfiguration.Builder(appID).build());
-
-        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
-        String email = pref.getString("email",null);
-        String password = pref.getString("password", null);
-        if(email!=null && password!=null){
-            inputEmail.setText(email);
-            inputPassword.setText(password);
-        }
 
         buttonloginSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +53,10 @@ public class Login extends AppCompatActivity {
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
                         Log.v("AUTH", "Successfully authenticated using an email and password.");
+                        SharedPreferences sharedPref = getSharedPreferences("sharedPref" ,Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("email",email);
+                        editor.putString("password", password);
                         user=app.currentUser();
                         userDetail.setUser(user);
                         Intent intent = new Intent(Login.this, home.class);

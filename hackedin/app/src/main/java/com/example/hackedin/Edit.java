@@ -18,10 +18,19 @@ import android.widget.Spinner;
 import android.view.Menu;
 
 
+
 import org.bson.Document;
 
 import java.util.Calendar;
 import java.util.Date;
+
+
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -66,10 +75,10 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timings);
         spin.setAdapter(adapter);
+
         mongoClient=user.getMongoClient("mongodb-atlas");
         mongoDatabase=mongoClient.getDatabase("users");
        mongoCollection=mongoDatabase.getCollection("emails");
-
 
     }
     public void onSave()
