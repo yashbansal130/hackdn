@@ -2,7 +2,9 @@ package com.example.hackedin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +43,14 @@ public class Login extends AppCompatActivity {
         inputEmail = findViewById(R.id.input_login_email);
         inputPassword = findViewById(R.id.input_login_password);
         app = new App(new AppConfiguration.Builder(appID).build());
+
+        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
+        String email = pref.getString("email",null);
+        String password = pref.getString("password", null);
+        if(email!=null && password!=null){
+            inputEmail.setText(email);
+            inputPassword.setText(password);
+        }
 
         buttonloginSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
