@@ -92,9 +92,10 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         nextTime = nextCalc.getNextTime();
         mongoCollection.insertOne(new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
                 bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).
-                append("TimeNext", nextTime).append("sentCount", 0)).getAsync(result -> {
+                append("TimeNext", nextTime).append("sentCount", 0).append("isDelete",0)).getAsync(result -> {
             if (result.isSuccess()) {
                 Log.v(LOG_TAG, "Insertion is successful");
+                finish();
             } else {
                 Log.v(LOG_TAG, "INsertion was not successful" + result.getError().toString());
             }
