@@ -3,12 +3,16 @@ package com.example.hackedin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import android.view.Menu;
+
 
 import io.realm.mongodb.User;
 
@@ -49,5 +53,10 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.editor_menu, menu);
+        return true;
     }
 }

@@ -4,12 +4,12 @@
     tools:context=".CatalogActivity">
 
     <item
-        android:id=""
+        android:id="@+id/history_item"
         android:title="History"
         app:showAsAction="never" />
 
     <item
-        android:id=""
+        android:id="@+id/logout_item"
         android:title="Logout"
         app:showAsAction="always" />
 </menu>

@@ -7,6 +7,10 @@
     tools:context=".home">
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a082f24e1dd8403ea916875c85d1c9d81a968396
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
