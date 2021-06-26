@@ -54,15 +54,9 @@ public class home extends AppCompatActivity {
             case R.id.history_item:
                 break;
             case R.id.logout_item:
-                SharedPreferences prf = getSharedPreferences("sharedPref",MODE_PRIVATE);
-                SharedPreferences.Editor editor = prf.edit();
-                editor.clear();
-                editor.commit();
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
- 
 }
