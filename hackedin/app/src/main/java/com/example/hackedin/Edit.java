@@ -35,7 +35,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setAdapter(adapter);
         String toData=toEdit.getText().toString();
         String ccData=ccEdit.getText().toString();
-        
+
     }
 
     @Override
