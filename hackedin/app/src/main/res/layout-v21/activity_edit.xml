@@ -8,10 +8,7 @@
     <ActionMenuView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    
-    <ActionMenuView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 
     <EditText
         android:layout_width="match_parent"
@@ -28,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawSelectorOnTop="true"
-        android:entries="@array/scheduler"
+
         android:layout_marginBottom="8dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown">

@@ -13,16 +13,19 @@ import android.view.Menu;
 import android.view.View;
 
 import io.realm.mongodb.App;
+import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
 
 public class home extends AppCompatActivity {
     User user;
     App app;
+    private static final String appID = "application-0-aybxr";
+    private static final String LOG_TAG =home.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        app = new App(new AppConfiguration.Builder(appID).build());
         user=userDetail.getUser();
 
         FloatingActionButton fab = findViewById(R.id.fab);

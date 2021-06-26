@@ -31,8 +31,7 @@ public class Login extends AppCompatActivity {
     EditText inputPassword;
     Button buttonloginSubmit;
     App app;
-    MongoClient mongoClient;
-    MongoDatabase mongoDatabase;
+
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG =Login.class.getSimpleName();
     User user;
