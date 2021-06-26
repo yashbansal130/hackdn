@@ -14,10 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="Theme.Hackedin.NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
     </style>
+
 
     <style name="Theme.Hackedin.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
