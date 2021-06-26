@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
         signupPassword = findViewById(R.id.input_signup_password);
         registerButton = findViewById(R.id.register_button);
         loginActivity = findViewById(R.id.login_activity);
-        String email = signupEmail.getText().toString();
-        String pwd = signupPassword.getText().toString();
+
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(appID).build());
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = signupEmail.getText().toString();
+                String pwd = signupPassword.getText().toString();
                 app.getEmailPassword().registerUserAsync(email, pwd, it ->
                 {
                     if (it.isSuccess()) {
