@@ -11,15 +11,19 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
-public class home extends AppCompatActivity {
+import io.realm.mongodb.App;
+import io.realm.mongodb.User;
 
+public class home extends AppCompatActivity {
+    User user;
+    App app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        user=userDetail.getUser();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

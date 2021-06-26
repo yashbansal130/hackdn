@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,23 +52,11 @@ public class Login extends AppCompatActivity {
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
                         Log.v("AUTH", "Successfully authenticated using an email and password.");
+                        user=app.currentUser();
+                        userDetail.setUser(user);
                         Intent intent = new Intent(Login.this, home.class);
                         startActivity(intent);
-//                        user=app.currentUser();
-//                        mongoClient = user.getMongoClient("mongodb-atlas");
-//                        mongoDatabase = mongoClient.getDatabase("users");
-//                        MongoCollection<Document> mongoCollection = mongoDatabase.getCollection("emails");
-//                        mongoCollection.insertOne(new Document("userId", user.getId()).append("data", "Hi")).getAsync(result ->{
-//                            if(result.isSuccess())
-//                            {
-//                                Log.v("Data","Data Inserted Successfully");
-//                            }
-//                            else
-//                            {
-//                                Log.v("Data","Error:"+result.getError().toString());
-//                            }
-//                        });
-//                        Log.v(LOG_TAG,"user id="+user);
+
                     } else {
                         Log.e(LOG_TAG, it.getError().toString());
                     }
