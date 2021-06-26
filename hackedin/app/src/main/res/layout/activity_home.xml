@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".home">
 
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

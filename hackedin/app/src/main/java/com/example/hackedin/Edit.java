@@ -6,6 +6,7 @@ import androidx.core.app.NavUtils;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,10 +18,18 @@ import android.widget.Spinner;
 import android.view.Menu;
 
 
+import org.bson.Document;
+
+import java.util.Calendar;
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.User;
+import io.realm.mongodb.mongo.MongoClient;
+import io.realm.mongodb.mongo.MongoCollection;
+import io.realm.mongodb.mongo.MongoDatabase;
 
 public class Edit extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     User user;
@@ -37,12 +46,16 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     private static int emailType;
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG =Edit.class.getSimpleName();
-
+    MongoClient mongoClient;
+    MongoDatabase mongoDatabase;
+    MongoCollection<Document> mongoCollection;
+    long  currentTime;
+    long nextTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Realm.init(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        Realm.init(this);
         app = new App(new AppConfiguration.Builder(appID).build());
         user = userDetail.getUser();
         toEdit = (EditText) findViewById(R.id.toContent);
@@ -53,7 +66,9 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timings);
         spin.setAdapter(adapter);
-
+        mongoClient=user.getMongoClient("mongodb-atlas");
+        mongoDatabase=mongoClient.getDatabase("users");
+       mongoCollection=mongoDatabase.getCollection("emails");
 
 
     }
@@ -63,6 +78,22 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         ccData = ccEdit.getText().toString();
         bodyData = bodyEdit.getText().toString();
         subData = subEdit.getText().toString();
+        currentTime = System.currentTimeMillis() / 1000L;
+        nextTime=nextTimeCalc.getNextTime();
+
+        mongoCollection.insertOne(new Document("userId",user.getId()).append("To",toData).append("CC",ccData).append("Body",
+                bodyData).append("Subject",subData).append("EmailType",emailType).append("TimeOnSet",currentTime).
+                append("TimeNext",nextTime).append("sentCount",0)).getAsync(result->{
+                    if(result.isSuccess())
+                    {
+                        Log.v(LOG_TAG,"Insertion is successful");
+                    }
+                    else
+                    {
+                        Log.v(LOG_TAG,"INsertion was not successful"+result.getError().toString());
+                    }
+        });
+
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
