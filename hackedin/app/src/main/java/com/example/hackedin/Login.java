@@ -31,10 +31,10 @@ public class Login extends AppCompatActivity {
     EditText inputPassword;
     Button buttonloginSubmit;
     App app;
-
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG =Login.class.getSimpleName();
     User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
                 Credentials emailPasswordCredentials = Credentials.emailPassword(email, password);
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
-                        Log.v("AUTH", "Successfully authenticated using an email and password.")
+                        Log.v("AUTH", "Successfully authenticated using an email and password.");
                         SharedPreferences sharedPref = getSharedPreferences("sharedPref" ,Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("email",email);
