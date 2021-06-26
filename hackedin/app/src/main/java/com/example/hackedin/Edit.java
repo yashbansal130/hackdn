@@ -73,7 +73,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         subEdit = (EditText) findViewById(R.id.subContent);
         Spinner spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, timings);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, timings);
         spin.setAdapter(adapter);
 
         mongoClient = user.getMongoClient("mongodb-atlas");
@@ -130,5 +130,4 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

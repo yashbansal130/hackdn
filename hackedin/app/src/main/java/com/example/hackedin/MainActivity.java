@@ -48,13 +48,6 @@ public class MainActivity extends AppCompatActivity {
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(appID).build());
 
-        //shared preference
-        SharedPreferences pref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
-        if(pref.contains("email") && pref.contains("password")){
-            Log.v(LOG_TAG, "hi i am here");
-            Intent loginIntent = new Intent(MainActivity.this, home.class);
-            startActivity(loginIntent);
-        }
         //register button
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +77,6 @@ public class MainActivity extends AppCompatActivity {
         {
             if (it.isSuccess()) {
                 Log.v(LOG_TAG, "signup successful");
-
-                SharedPreferences sharedPref = getSharedPreferences("sharedPref" ,Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("email",email);
-                editor.putString("password", pwd);
-                editor.commit();
 
                 Log.v(LOG_TAG, email+" "+ pwd);
 
