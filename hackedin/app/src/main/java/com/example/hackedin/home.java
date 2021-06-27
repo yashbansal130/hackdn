@@ -1,9 +1,13 @@
 package com.example.hackedin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import org.bson.Document;
+import org.json.JSONObject;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -11,12 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -33,38 +42,53 @@ public class home extends AppCompatActivity {
     MongoClient mongoClient;
     MongoDatabase mongoDatabase;
     MongoCollection<Document> mongoCollection;
+    ArrayList<DocOb> homeArray;
+
     private static final String appID = "application-0-aybxr";
-    private static final String LOG_TAG =home.class.getSimpleName();
+    private static final String LOG_TAG = home.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         app = new App(new AppConfiguration.Builder(appID).build());
-        user=userDetail.getUser();
+        user = userDetail.getUser();
         mongoClient = user.getMongoClient("mongodb-atlas");
         mongoDatabase = mongoClient.getDatabase("users");
         mongoCollection = mongoDatabase.getCollection("emails");
-        Document queryFilter= new Document().append("userId",user.getId()).append("sentCount",0);
-        RealmResultTask<MongoCursor<Document>> findTask =mongoCollection.find(queryFilter).iterator();
-//        ArrayList<Document> homeArray=new ArrayList<Document>();
-        findTask.getAsync(task->
+        Document queryFilter = new Document().append("userId", user.getId()).append("sentCount", 0);
+        homeArray = new ArrayList<DocOb>();
+        RealmResultTask<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
+
+
+        findTask.getAsync(task ->
         {
-            if(task.isSuccess())
-            {
-                MongoCursor<Document> result=task.get();
-                while(result.hasNext())
-                {
-                    Document curDoc=result.next();
-//                    homeArray.add(curDoc);
-                    Log.v(LOG_TAG,"sent to mail"+curDoc.get("To").toString());
+            if (task.isSuccess()) {
+                MongoCursor<Document> result = task.get();
+                while (result.hasNext()) {
+                    Document curDoc = result.next();
+                    try {
+                        DocOb docOb = new DocOb(curDoc.getString("To"), curDoc.getString("Subject"),curDoc.getLong("TimeOnSet"),
+                                (int)curDoc.get("sentCount"),  (int)curDoc.get("EmailType"));
+                        homeArray.add(docOb);
+                    } catch (Exception e) {
+                        Log.v(LOG_TAG, "fucking error", e);
+                    }
+
+                    Log.v(LOG_TAG, "sent to mail" + curDoc.get("To").toString());
+
                 }
-                Log.v(LOG_TAG,"successfully found the task");
+                updateUi();
+
+                Log.v(LOG_TAG, "successfully found the task");
+            } else {
+                Log.v(LOG_TAG, "task not found" + task.getError().toString());
             }
-            else
-            {
-                Log.v(LOG_TAG,"task not found"+task.getError().toString());
-            }
+
         });
+
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +100,22 @@ public class home extends AppCompatActivity {
         });
     }
 
+    public void updateUi() {
+
+        if (homeArray == null) {
+            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + homeArray.size());
+        }
+        try {
+            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + home.this);
+            ListView listView = (ListView) findViewById(R.id.listContainer);
+            customAdapter adapter = new customAdapter(this,R.layout.list_item, homeArray, 0);
+            listView.setAdapter(adapter);
+        } catch (NullPointerException e) {
+            Log.v("LOG_TAG", "yaar wapis se", e);
+        }
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
@@ -85,7 +125,7 @@ public class home extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.history_item:
                 break;
             case R.id.logout_item:

@@ -51,7 +51,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     String bodyData;
     String subData;
     String[] timings = {"Recurring", "Weekly", "Monthly", "Yearly",};
-    private static int emailType;
+    private  int emailType;
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG = Edit.class.getSimpleName();
     MongoClient mongoClient;
@@ -87,7 +87,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         ccData = ccEdit.getText().toString();
         bodyData = bodyEdit.getText().toString();
         subData = subEdit.getText().toString();
-        currentTime = System.currentTimeMillis() / 1000L;
+        currentTime = System.currentTimeMillis() ;
         nextTimeCalc nextCalc = new nextTimeCalc(emailType, currentTime);
         nextTime = nextCalc.getNextTime();
         mongoCollection.insertOne(new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
