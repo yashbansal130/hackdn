@@ -6,6 +6,7 @@ public class DocOb {
     private long mTime;
     private int mEmailType;
     private int mCount;
+
     public DocOb(String To,String Sub,long time,int count,int emailType )
     {
         mTo = To;

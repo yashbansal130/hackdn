@@ -61,7 +61,7 @@ public class home extends AppCompatActivity {
         mongoClient = user.getMongoClient("mongodb-atlas");
         mongoDatabase = mongoClient.getDatabase("users");
         mongoCollection = mongoDatabase.getCollection("emails");
-        Document queryFilter = new Document().append("userId", user.getId()).append("sentCount", 0);
+        Document queryFilter = new Document().append("userId", user.getId()).append("isDelete", 0);
         homeArray = new ArrayList<DocOb>();
         RealmResultTask<MongoCursor<Document>> findTask = mongoCollection.find(queryFilter).iterator();
 
