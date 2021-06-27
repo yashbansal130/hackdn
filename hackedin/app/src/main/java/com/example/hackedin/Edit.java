@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -59,12 +60,15 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     MongoCollection<Document> mongoCollection;
     long currentTime;
     long nextTime;
-
+    long prevTimeOnSet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Realm.init(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        Intent prevIntent=getIntent();
+        prevTimeOnSet=prevIntent.getLongExtra("timeOnSet",0L);
+
         app = new App(new AppConfiguration.Builder(appID).build());
         user = userDetail.getUser();
         toEdit = (EditText) findViewById(R.id.toContent);
@@ -79,6 +83,32 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         mongoClient = user.getMongoClient("mongodb-atlas");
         mongoDatabase = mongoClient.getDatabase("users");
         mongoCollection = mongoDatabase.getCollection("emails");
+        if(prevTimeOnSet!=0L)
+        {
+            Document queryFilter = new Document().append("userId", user.getId()).append("TimeOnSet", prevTimeOnSet);
+            mongoCollection.findOne(queryFilter).getAsync(result->
+            {
+                if(result.isSuccess())
+                {
+                    Document prevRes=result.get();
+                    toData=prevRes.getString("To");
+                    ccData=prevRes.getString("CC");
+                    bodyData=prevRes.getString("Body");
+                    subData=prevRes.getString("Subject");
+                    emailType=prevRes.getInteger("EmailType");
+                    toEdit.setText(toData);
+                    ccEdit.setText(ccData);
+                    bodyEdit.setText(bodyData);
+                    subEdit.setText(subData);
+                    spin.setSelection(emailType);
+                    Log.v(LOG_TAG,"broadcasted the object found");
+                }
+                else
+                {
+                    Log.v(LOG_TAG,"object document found not broadcasted");
+                }
+            });
+        }
 
     }
 
@@ -101,6 +131,28 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
             }
         });
 
+    }
+    public void onDocDeleted()
+    {
+        if(prevTimeOnSet==0L)
+        {
+            return;
+        }
+        else
+        {
+            Document queryFilter = new Document().append("userId", user.getId()).append("TimeOnSet", prevTimeOnSet);
+            mongoCollection.findOne(queryFilter).getAsync(result->
+            {
+                if(result.isSuccess())
+                {
+                    Log.v(LOG_TAG,"to delete successfully object found");
+                }
+                else
+                {
+                    Log.v(LOG_TAG,"object document to delete not found");
+                }
+            });
+        }
     }
 
     @Override
@@ -125,6 +177,9 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         switch (item.getItemId()) {
             case R.id.action_save:
                 onSave();
+                return true;
+            case R.id.action_delete:
+                onDocDeleted();
                 return true;
 
         }
