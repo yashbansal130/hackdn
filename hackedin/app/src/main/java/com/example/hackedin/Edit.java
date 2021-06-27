@@ -146,7 +146,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
             });
         }
-
+        sendMail sendmail = new sendMail(toData, ccData, subData, bodyData);
+        sendmail.toMail();
 
 
 
@@ -200,6 +201,15 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.editor_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(prevTimeOnSet==0){
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 
