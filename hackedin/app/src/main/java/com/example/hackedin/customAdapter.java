@@ -74,7 +74,9 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         String formattedTime = formatTime(itemDate);
         String formattedDate = formatDate(itemDate);
         dateText.setText(formattedDate);
+
         timeText.setText(formattedTime);
+
         TextView countText=(TextView)convertView.findViewById(R.id.listTime);
         if(mlistType==1)
         {
