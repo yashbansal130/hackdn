@@ -15,19 +15,19 @@ public class sendMail {
     String mTo;
     String mCC;
     String mSubject;
-    int mSchedule;
+    //int mSchedule;
     String mBody;
     String mEmail;
     String mPassword;
 
-    public sendMail(String To, String CC, String Subject, int Schedule, String Body, String Email, String Password) {
+    public sendMail(String To, String CC, String Subject, String Body) {
         mTo = To;
         mCC = CC;
         mBody = Body;
-        mSchedule = Schedule;
+        //mSchedule = Schedule;
         mSubject = Subject;
-        mEmail = Email;
-        mPassword = Password;
+        mEmail = "byash764438@gmail.com";
+        mPassword = "_yash__bansal_";
     }
 
     public void toMail() {
@@ -48,6 +48,7 @@ public class sendMail {
             message.setFrom(new InternetAddress(mEmail));
             InternetAddress uri = new InternetAddress(mTo.trim());
             message.setRecipient(Message.RecipientType.TO, uri);
+            message.setRecipient(Message.RecipientType.CC, uri);
             message.setSubject(mSubject);
             message.setText(mBody);
             new SendMail().onBackground(message);

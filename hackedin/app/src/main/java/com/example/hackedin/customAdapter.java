@@ -48,12 +48,12 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         TextView emailTypeText=(TextView)convertView.findViewById(R.id.listEmailType);
         TextView dateText=(TextView)convertView.findViewById(R.id.listDate);
         TextView timeText=(TextView)convertView.findViewById(R.id.listTime);
-        String todata="To: "+curDoc.getTo();
+        String todata=curDoc.getTo();
         toText.setText(todata);
-        String subdata="Sub: "+curDoc.getSub();
+        String subdata=curDoc.getSub();
         subText.setText(subdata);
         int emailTypeNum=curDoc.getEmailType();
-        String emailTypeName="Scheduled as: ";
+        String emailTypeName="";
         switch(emailTypeNum)
         {
             case 0:
@@ -78,8 +78,7 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         dateText.setText(formattedDate);
         Log.v("CustomAdapter","formatted time"+formattedTime);
         timeText.setText(formattedTime);
-
-        TextView countText=(TextView)convertView.findViewById(R.id.listTime);
+        TextView countText=(TextView)convertView.findViewById(R.id.listCount);
         int c=curDoc.getCount();
 
         if(mlistType==1)
@@ -91,7 +90,6 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         }
         if(mlistType==0)
         {
-//            Log.v("CustomAdapter","sent count number"+c);
             countText.setVisibility(View.GONE);
         }
         return convertView;

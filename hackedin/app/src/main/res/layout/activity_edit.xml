@@ -12,12 +12,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/toContent"
         android:hint="To"
+        android:inputType="textEmailAddress"
         android:layout_marginBottom="8dp"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ccContent"
         android:hint="CC"
+        android:inputType="textEmailAddress"
         android:layout_marginBottom="8dp"/>
     <EditText
         android:layout_width="match_parent"
