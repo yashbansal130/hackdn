@@ -150,7 +150,7 @@ public class home extends AppCompatActivity {
             if (data.hasExtra("isDataAdded")) {
                 if(data.getExtras().getInt("isDataAdded")==1)
                 {
-                    Toast.makeText(this, "karna refresh",
+                    Toast.makeText(this, "Kindly Login Again To Refresh! ;(",
                             Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 }

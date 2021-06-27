@@ -19,6 +19,12 @@ public class sendMail {
     String mBody;
     String mEmail;
     String mPassword;
+    public sendMail(String To, String CC, String Subject, String Body) {
+        mTo = To;
+        mCC = CC;
+        mBody = Body;
+        mSubject = Subject;
+    }
 
     public sendMail(String To, String CC, String Subject, int Schedule, String Body, String Email, String Password) {
         mTo = To;
@@ -31,7 +37,8 @@ public class sendMail {
     }
 
     public void toMail() {
-
+        mEmail=userDetail.getEmailId();
+        mPassword=userDetail.getPassWord();
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");

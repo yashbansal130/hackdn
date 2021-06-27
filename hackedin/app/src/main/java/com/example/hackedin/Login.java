@@ -48,13 +48,18 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
+
                 String password = inputPassword.getText().toString();
+                userDetail.setEmailId(email);
+                userDetail.setPassword(password);
                 Credentials emailPasswordCredentials = Credentials.emailPassword(email, password);
                 app.loginAsync(emailPasswordCredentials, it -> {
                     if (it.isSuccess()) {
                         Log.v("AUTH", "Successfully authenticated using an email and password.");
                         user=app.currentUser();
+
                         userDetail.setUser(user);
+
                         Intent intent = new Intent(Login.this, home.class);
                         startActivity(intent);
 

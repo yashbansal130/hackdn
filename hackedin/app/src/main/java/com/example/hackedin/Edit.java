@@ -63,6 +63,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     int Counter;
     int prevemailType;
     int isAdded;
+    MiddleMail middleMail;
     Document prevRes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,6 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         spin.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, timings);
         spin.setAdapter(adapter);
-
         mongoClient = user.getMongoClient("mongodb-atlas");
         mongoDatabase = mongoClient.getDatabase("users");
         mongoCollection = mongoDatabase.getCollection("emails");
@@ -118,6 +118,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
             });
         }
 
+
     }
 
     public void onSave() {
@@ -136,6 +137,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                     bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).append("sentCount", 0).append("isDelete", 0)).getAsync(result -> {
                 if (result.isSuccess()) {
                     Log.v(LOG_TAG, "Insertion is successful");
+                    middleMail=new MiddleMail(getApplicationContext(),currentTime);
+                    middleMail.MailCall();
                     isAdded=1;
                     workDone();
                 } else {
@@ -143,6 +146,9 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
             });
         }
+
+
+
 
 
     }

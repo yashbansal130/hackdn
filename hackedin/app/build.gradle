@@ -41,8 +41,16 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    //forWindows
+    implementation files('libs/mail.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    //forMac
     implementation files('libs\\mail.jar')
     implementation files('libs\\activation.jar')
     implementation files('libs\\additionnal.jar')
+
+
+    def work_version = "2.4.0"
+    implementation "androidx.work:work-runtime:$work_version"
 }
