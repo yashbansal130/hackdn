@@ -59,14 +59,17 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     MongoDatabase mongoDatabase;
     MongoCollection<Document> mongoCollection;
     long currentTime;
-    long nextTime;
     long prevTimeOnSet;
+    int Counter;
+    int prevemailType;
+    Document prevRes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Realm.init(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         Intent prevIntent=getIntent();
+        Counter=0;
         prevTimeOnSet=prevIntent.getLongExtra("timeOnSet",0L);
 
         app = new App(new AppConfiguration.Builder(appID).build());
@@ -90,12 +93,14 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
             {
                 if(result.isSuccess())
                 {
-                    Document prevRes=result.get();
+                    prevRes=result.get();
                     toData=prevRes.getString("To");
                     ccData=prevRes.getString("CC");
                     bodyData=prevRes.getString("Body");
                     subData=prevRes.getString("Subject");
-                    emailType=prevRes.getInteger("EmailType");
+                    prevemailType=prevRes.getInteger("EmailType");
+                    currentTime=prevRes.getLong("TimeOnSet");
+                    Counter=prevRes.getInteger("sentCount");
                     toEdit.setText(toData);
                     ccEdit.setText(ccData);
                     bodyEdit.setText(bodyData);
@@ -105,6 +110,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
                 else
                 {
+                    prevRes=null;
                     Log.v(LOG_TAG,"object document found not broadcasted");
                 }
             });
@@ -113,23 +119,28 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     }
 
     public void onSave() {
+        if(prevRes!=null)
+        {
+            onDocDeleted();
+            prevRes=null;
+        }
         toData = toEdit.getText().toString();
         ccData = ccEdit.getText().toString();
         bodyData = bodyEdit.getText().toString();
         subData = subEdit.getText().toString();
         currentTime = System.currentTimeMillis() ;
-        nextTimeCalc nextCalc = new nextTimeCalc(emailType, currentTime);
-        nextTime = nextCalc.getNextTime();
-        mongoCollection.insertOne(new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
-                bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).
-                append("TimeNext", nextTime).append("sentCount", 0).append("isDelete",0)).getAsync(result -> {
-            if (result.isSuccess()) {
-                Log.v(LOG_TAG, "Insertion is successful");
-                finish();
-            } else {
-                Log.v(LOG_TAG, "INsertion was not successful" + result.getError().toString());
-            }
-        });
+        if(prevRes==null) {
+            mongoCollection.insertOne(new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
+                    bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).append("sentCount", 0).append("isDelete", 0)).getAsync(result -> {
+                if (result.isSuccess()) {
+                    Log.v(LOG_TAG, "Insertion is successful");
+                    finish();
+                } else {
+                    Log.v(LOG_TAG, "INsertion was not successful" + result.getError().toString());
+                }
+            });
+        }
+
 
     }
     public void onDocDeleted()
@@ -141,17 +152,22 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         else
         {
             Document queryFilter = new Document().append("userId", user.getId()).append("TimeOnSet", prevTimeOnSet);
-            mongoCollection.findOne(queryFilter).getAsync(result->
-            {
-                if(result.isSuccess())
-                {
-                    Log.v(LOG_TAG,"to delete successfully object found");
-                }
-                else
-                {
-                    Log.v(LOG_TAG,"object document to delete not found");
-                }
-            });
+            Document temp=new Document("userId", user.getId()).append("To", toData).append("CC", ccData).append("Body",
+                    bodyData).append("Subject", subData).append("EmailType", prevemailType).append("TimeOnSet", currentTime).append("sentCount", 0).append("isDelete", 1);
+           mongoCollection.updateOne(queryFilter,temp).getAsync(result->
+           {
+               if(result.isSuccess())
+               {
+
+                   Log.v(LOG_TAG,"deleted");
+                   finish();
+               }
+               else
+               {
+                   Log.v(LOG_TAG,"NOT deleted");
+               }
+           });
+
         }
     }
 
