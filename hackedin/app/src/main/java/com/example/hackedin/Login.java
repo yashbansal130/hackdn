@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.bson.Document;
 
@@ -48,7 +49,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
-
                 String password = inputPassword.getText().toString();
                 userDetail.setEmailId(email);
                 userDetail.setPassword(password);
@@ -64,6 +64,8 @@ public class Login extends AppCompatActivity {
                         startActivity(intent);
 
                     } else {
+                        String error="Error: "+it.getError().toString();
+                        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
                         Log.e(LOG_TAG, it.getError().toString());
                     }
                 });

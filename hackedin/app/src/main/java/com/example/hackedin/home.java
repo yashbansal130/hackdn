@@ -110,6 +110,7 @@ public class home extends AppCompatActivity {
     public void updateUi() {
 
         if (homeArray == null) {
+            Toast.makeText(getApplicationContext(),"NO MAIL ENTRIES TO SHOW!",Toast.LENGTH_LONG).show();
             Log.v("LOG_TAG", "size of home array" + homeArray.size());
             return;
         }

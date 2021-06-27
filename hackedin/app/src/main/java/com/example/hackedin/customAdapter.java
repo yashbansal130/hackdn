@@ -76,22 +76,13 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         String formattedDate = formatDate(itemDate);
 
         dateText.setText(formattedDate);
-        Log.v("CustomAdapter","formatted time"+formattedTime);
         timeText.setText(formattedTime);
         TextView countText=(TextView)convertView.findViewById(R.id.listCount);
         int c=curDoc.getCount();
 
-        if(mlistType==1)
-        {
-            countText.setVisibility(View.VISIBLE);
-            String countdata=""+c;
-            countText.setText(countdata);
 
-        }
-        if(mlistType==0)
-        {
-            countText.setVisibility(View.GONE);
-        }
+        countText.setVisibility(View.GONE);
+
         return convertView;
     }
 }

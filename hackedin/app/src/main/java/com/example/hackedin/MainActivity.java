@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent loginIntent = new Intent(MainActivity.this, Login.class);
                 startActivity(loginIntent);
             } else {
+                String error="Error: "+it.getError().toString();
+                Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
                 Log.v(LOG_TAG, "signup unsucessful"+it.getError());
             }
         });

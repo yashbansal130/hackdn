@@ -13,6 +13,8 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#9AC6ED"
+        android:drawSelectorOnTop="true"
         android:id="@+id/listContainer"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

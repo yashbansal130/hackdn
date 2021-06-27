@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -146,8 +147,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                 }
             });
         }
-        sendMail sendmail = new sendMail(toData, ccData, subData, bodyData);
-        sendmail.toMail();
+
 
 
 
@@ -186,6 +186,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         Intent data = new Intent();
         data.putExtra("isDataAdded", isAdded);
         setResult(RESULT_OK, data);
+        String submitmsg="Submitted successfully!";
+        Toast.makeText(getApplicationContext(),submitmsg,Toast.LENGTH_SHORT).show();
         finish();
     }
     @Override

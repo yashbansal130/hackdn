@@ -3,6 +3,7 @@ package com.example.hackedin;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -72,17 +73,17 @@ public class History extends AppCompatActivity {
     public void updateUi() {
 
         if (historyArray == null) {
-
-            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + historyArray.size());
+            Toast.makeText(getApplicationContext(),"NO MAIL ENTRIES TO SHOW!",Toast.LENGTH_LONG).show();
+            Log.v("LOG_TAG", "Error in history array" + historyArray.size());
             return;
         }
         try {
-            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + History.this);
+            Log.v("LOG_TAG", "History error" + History.this);
             ListView listView = (ListView) findViewById(R.id.historyList);
             customAdapter adapter = new customAdapter(this,R.layout.list_item, historyArray, 1);
             listView.setAdapter(adapter);
         } catch (NullPointerException e) {
-            Log.v("LOG_TAG", "yaar wapis se", e);
+            Log.v("LOG_TAG", "Null pointer exception", e);
         }
     }
 }

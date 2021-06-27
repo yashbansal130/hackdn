@@ -9,14 +9,6 @@ import androidx.work.ListenableWorker;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import org.bson.Document;
-
-import io.realm.mongodb.App;
-import io.realm.mongodb.AppConfiguration;
-import io.realm.mongodb.User;
-import io.realm.mongodb.mongo.MongoClient;
-import io.realm.mongodb.mongo.MongoCollection;
-import io.realm.mongodb.mongo.MongoDatabase;
 
 public class MailSender extends Worker {
     String toData;
@@ -50,7 +42,7 @@ public class MailSender extends Worker {
             return Result.success();
         }
         if(deleteType==0) {
-            sendMail sendmail = new sendMail(toData, ccData, subData, bodyData);
+            sendMail sendmail = new sendMail(toData, ccData, subData, bodyData,getApplicationContext());
             sendmail.toMail();
             Log.v("MailSender","Mailsent");
         }

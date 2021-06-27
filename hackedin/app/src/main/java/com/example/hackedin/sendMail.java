@@ -5,7 +5,11 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
 import java.util.Properties;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -15,26 +19,18 @@ public class sendMail {
     String mTo;
     String mCC;
     String mSubject;
-    //int mSchedule;
     String mBody;
     String mEmail;
     String mPassword;
-    public sendMail(String To, String CC, String Subject, String Body) {
+    Context context;
+    public sendMail(String To, String CC, String Subject, String Body,Context mcontext) {
         mTo = To;
         mCC = CC;
         mBody = Body;
         mSubject = Subject;
+        context=mcontext;
     }
 
-    public sendMail(String To, String CC, String Subject, String Body) {
-        mTo = To;
-        mCC = CC;
-        mBody = Body;
-        //mSchedule = Schedule;
-        mSubject = Subject;
-        mEmail = "byash764438@gmail.com";
-        mPassword = "_yash__bansal_";
-    }
 
     public void toMail() {
         mEmail=userDetail.getEmailId();
@@ -54,8 +50,12 @@ public class sendMail {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mEmail));
             InternetAddress uri = new InternetAddress(mTo.trim());
+
             message.setRecipient(Message.RecipientType.TO, uri);
-            message.setRecipient(Message.RecipientType.CC, uri);
+            if(mCC!=null || mCC.length()>5) {
+                InternetAddress uri2 = new InternetAddress(mCC.trim());
+                message.setRecipient(Message.RecipientType.CC, uri2);
+            }
             message.setSubject(mSubject);
             message.setText(mBody);
             new SendMail().onBackground(message);
@@ -71,8 +71,10 @@ public class sendMail {
                 public void run() {
                     try {
                         Transport.send(messages[0]);
+                        Toast.makeText(context,"MAIL SENT SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
                         Log.v("task", "Sucesss");
                     } catch (MessagingException e) {
+                        Toast.makeText(context,"MAIL NOT SENT!! "+e,Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                         Log.v("task", "failure");
                     }
