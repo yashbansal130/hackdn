@@ -1,6 +1,7 @@
 package com.example.hackedin;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,19 +74,24 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         Date itemDate = new Date(timeOn);
         String formattedTime = formatTime(itemDate);
         String formattedDate = formatDate(itemDate);
-        dateText.setText(formattedDate);
 
+        dateText.setText(formattedDate);
+        Log.v("CustomAdapter","formatted time"+formattedTime);
         timeText.setText(formattedTime);
 
         TextView countText=(TextView)convertView.findViewById(R.id.listTime);
+        int c=curDoc.getCount();
+
         if(mlistType==1)
         {
             countText.setVisibility(View.VISIBLE);
-            String countdata=""+curDoc.getCount();
+            String countdata=""+c;
             countText.setText(countdata);
+
         }
-        else
+        if(mlistType==0)
         {
+//            Log.v("CustomAdapter","sent count number"+c);
             countText.setVisibility(View.GONE);
         }
         return convertView;

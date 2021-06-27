@@ -22,11 +22,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.RealmResultTask;
@@ -43,6 +45,8 @@ public class home extends AppCompatActivity {
     MongoDatabase mongoDatabase;
     MongoCollection<Document> mongoCollection;
     ArrayList<DocOb> homeArray;
+    ListView listView;
+    customAdapter adapter;
 
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG = home.class.getSimpleName();
@@ -96,6 +100,7 @@ public class home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(home.this, Edit.class);
                 startActivity(intent);
+                Log.v(LOG_TAG,"after sending intent to edit view");
             }
         });
     }
@@ -103,18 +108,32 @@ public class home extends AppCompatActivity {
     public void updateUi() {
 
         if (homeArray == null) {
-            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + homeArray.size());
+            Log.v("LOG_TAG", "size of home array" + homeArray.size());
+            return;
         }
         try {
-            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + home.this);
-            ListView listView = (ListView) findViewById(R.id.listContainer);
-            customAdapter adapter = new customAdapter(this,R.layout.list_item, homeArray, 0);
+//            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + home.this);
+            listView = (ListView) findViewById(R.id.listContainer);
+             adapter = new customAdapter(this,R.layout.list_item, homeArray, 0);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    long timeSet=homeArray.get(position).getTime();
+                    Intent intent=new Intent(home.this,Edit.class);
+                    intent.putExtra("timeOnSet",timeSet);
+                    startActivity(intent);
+                }
+            });
         } catch (NullPointerException e) {
             Log.v("LOG_TAG", "yaar wapis se", e);
         }
     }
-
+    public void toHistory()
+    {
+        Intent intent=new Intent(home.this,History.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,6 +146,7 @@ public class home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.history_item:
+                toHistory();
                 break;
             case R.id.logout_item:
                 finish();
@@ -134,5 +154,6 @@ public class home extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
