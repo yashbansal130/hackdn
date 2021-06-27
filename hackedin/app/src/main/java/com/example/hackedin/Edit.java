@@ -62,6 +62,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     long prevTimeOnSet;
     int Counter;
     int prevemailType;
+    int isAdded;
     Document prevRes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         setContentView(R.layout.activity_edit);
         Intent prevIntent=getIntent();
         Counter=0;
+        isAdded=0;
         prevTimeOnSet=prevIntent.getLongExtra("timeOnSet",0L);
 
         app = new App(new AppConfiguration.Builder(appID).build());
@@ -134,7 +136,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                     bodyData).append("Subject", subData).append("EmailType", emailType).append("TimeOnSet", currentTime).append("sentCount", 0).append("isDelete", 0)).getAsync(result -> {
                 if (result.isSuccess()) {
                     Log.v(LOG_TAG, "Insertion is successful");
-                    finish();
+                    isAdded=1;
+                    workDone();
                 } else {
                     Log.v(LOG_TAG, "INsertion was not successful" + result.getError().toString());
                 }
@@ -160,7 +163,8 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                {
 
                    Log.v(LOG_TAG,"deleted");
-                   finish();
+                   isAdded=1;
+                   workDone();
                }
                else
                {
@@ -170,7 +174,13 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         }
     }
-
+    public void workDone()
+    {
+        Intent data = new Intent();
+        data.putExtra("isDataAdded", isAdded);
+        setResult(RESULT_OK, data);
+        finish();
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         emailType = position;

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class home extends AppCompatActivity {
     ArrayList<DocOb> homeArray;
     ListView listView;
     customAdapter adapter;
+    final private int REQUEST_CODE=0;
 
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG = home.class.getSimpleName();
@@ -99,7 +101,7 @@ public class home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(home.this, Edit.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE);
                 Log.v(LOG_TAG,"after sending intent to edit view");
             }
         });
@@ -122,7 +124,7 @@ public class home extends AppCompatActivity {
                     long timeSet=homeArray.get(position).getTime();
                     Intent intent=new Intent(home.this,Edit.class);
                     intent.putExtra("timeOnSet",timeSet);
-                    startActivity(intent);
+                    startActivityForResult(intent,REQUEST_CODE);
                 }
             });
         } catch (NullPointerException e) {
@@ -140,6 +142,22 @@ public class home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data.hasExtra("isDataAdded")) {
+                if(data.getExtras().getInt("isDataAdded")==1)
+                {
+                    Toast.makeText(this, "karna refresh",
+                            Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 
 
     @Override
