@@ -14,16 +14,16 @@ public  class nextTimeCalc {
         switch(emailType)
         {
             case 0:
-                next=30000L;
+                next=0;
                 break;
             case 1:
-                next=604800000L;
+                next=60*60;
                 break;
             case 2:
-                next=18144000000L;
+                next=24*60*60;
                 break;
             case 3:
-                next=18364752000000L;
+                next=24*60*60*7;
                 break;
         }
         return next;

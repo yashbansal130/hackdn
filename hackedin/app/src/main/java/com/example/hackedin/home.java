@@ -79,7 +79,7 @@ public class home extends AppCompatActivity {
                                 (int)curDoc.get("sentCount"),  (int)curDoc.get("EmailType"));
                         homeArray.add(docOb);
                     } catch (Exception e) {
-                        Log.v(LOG_TAG, "fucking error", e);
+                        Log.v(LOG_TAG, "error", e);
                     }
 
                     Log.v(LOG_TAG, "sent to mail" + curDoc.get("To").toString());
@@ -115,7 +115,7 @@ public class home extends AppCompatActivity {
             return;
         }
         try {
-//            Log.v("LOG_TAG", "yaar kyuu khaali hai tu" + home.this);
+
             listView = (ListView) findViewById(R.id.listContainer);
              adapter = new customAdapter(this,R.layout.list_item, homeArray, 0);
             listView.setAdapter(adapter);
@@ -129,7 +129,7 @@ public class home extends AppCompatActivity {
                 }
             });
         } catch (NullPointerException e) {
-            Log.v("LOG_TAG", "yaar wapis se", e);
+            Log.v("LOG_TAG", "erro in home page", e);
         }
     }
     public void toHistory()

@@ -57,16 +57,16 @@ public class customAdapter extends ArrayAdapter<DocOb> {
         switch(emailTypeNum)
         {
             case 0:
-               emailTypeName+="Recurring";
+               emailTypeName+="Instantly";
                break;
             case 1:
-                emailTypeName+="Weekly";
+                emailTypeName+="An Hour Later";
                 break;
             case 2:
-                emailTypeName+="Monthly";
+                emailTypeName+="A Day Later";
                 break;
             case 3:
-                emailTypeName+="Yearly";
+                emailTypeName+="A Week Later";
                 break;
         }
         emailTypeText.setText(emailTypeName);

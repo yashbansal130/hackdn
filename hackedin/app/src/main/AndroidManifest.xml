@@ -17,23 +17,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login" />
-        <activity
-            android:name=".home">
-        </activity>
 
-        <activity android:name=".Edit"
-            android:parentActivityName=".home">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".home" />
-        </activity>
-        <activity android:name=".History"
+        <activity android:name=".Login"/>
+
+        <activity
+            android:name=".home"
+            android:label="HOME"/>
+
+        <activity
+            android:name=".Edit"
+            android:label="CREATE/EDIT"
             android:parentActivityName=".home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home" />
         </activity>
+
+        <activity
+            android:name=".History"
+            android:label="HISTORY"
+            android:parentActivityName=".home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home" />
+        </activity>
+
     </application>
 
 </manifest>

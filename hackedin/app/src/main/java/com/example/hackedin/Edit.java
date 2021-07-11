@@ -52,7 +52,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
     String ccData;
     String bodyData;
     String subData;
-    String[] timings = {"Recurring", "Weekly", "Monthly", "Yearly",};
+    String[] timings = {"Instantly","An Hour Later", "A Day Later", "A Week Later"};
     private  int emailType;
     private static final String appID = "application-0-aybxr";
     private static final String LOG_TAG = Edit.class.getSimpleName();
@@ -130,6 +130,10 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
         }
         toData = toEdit.getText().toString();
         ccData = ccEdit.getText().toString();
+        if(ccData.length()==0 || ccData.charAt(0)==' ')
+        {
+            ccData="NULL";
+        }
         bodyData = bodyEdit.getText().toString();
         subData = subEdit.getText().toString();
         currentTime = System.currentTimeMillis() ;

@@ -1,15 +1,10 @@
 package com.example.hackedin;
 
-import android.app.ProgressDialog;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
 import java.util.Properties;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -22,13 +17,13 @@ public class sendMail {
     String mBody;
     String mEmail;
     String mPassword;
-    Context context;
-    public sendMail(String To, String CC, String Subject, String Body,Context mcontext) {
+
+    public sendMail(String To, String CC, String Subject, String Body) {
         mTo = To;
         mCC = CC;
         mBody = Body;
         mSubject = Subject;
-        context=mcontext;
+
     }
 
 
@@ -52,7 +47,7 @@ public class sendMail {
             InternetAddress uri = new InternetAddress(mTo.trim());
 
             message.setRecipient(Message.RecipientType.TO, uri);
-            if(mCC!=null || mCC.length()>5) {
+            if(!mCC.equals("NULL")) {
                 InternetAddress uri2 = new InternetAddress(mCC.trim());
                 message.setRecipient(Message.RecipientType.CC, uri2);
             }
@@ -71,10 +66,8 @@ public class sendMail {
                 public void run() {
                     try {
                         Transport.send(messages[0]);
-                        Toast.makeText(context,"MAIL SENT SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
                         Log.v("task", "Sucesss");
                     } catch (MessagingException e) {
-                        Toast.makeText(context,"MAIL NOT SENT!! "+e,Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                         Log.v("task", "failure");
                     }

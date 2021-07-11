@@ -65,8 +65,10 @@ public class MiddleMail {
                 deleteType = prevRes.getInteger("isDelete");
                 if (deleteType == 0) {
                     DataObject dataObject = new DataObject(toData, ccData, subData, bodyData, emailType, deleteType);
+                    nextTimeCalc nxt=new nextTimeCalc(emailType);
+                   long delay=nxt.getNextTime();
                     workManager = WorkManager.getInstance(mContext);
-                    workRequest = new OneTimeWorkRequest.Builder(MailSender.class).setInputData(dataObject.dataReturn()).build();
+                    workRequest = new OneTimeWorkRequest.Builder(MailSender.class).setInputData(dataObject.dataReturn()).setInitialDelay(delay,TimeUnit.SECONDS).build();
                     workManager.enqueue(workRequest);
 
                 }
@@ -76,19 +78,3 @@ public class MiddleMail {
 }
 
 
-
-//                 if(emailType==0) {
-//                        workRequest = new OneTimeWorkRequest.Builder(MailSender.class).setInputData(dataObject.dataReturn()).build();
-//                        Log.v("Middle Mail", "work request created and applied");
-//                        workManager.enqueue(workRequest);
-//                    }
-//                    if(emailType>0)
-//                    {
-//                        nextTimeCalc nexttime=new nextTimeCalc(emailType);
-//                        long timeInter=nexttime.getNextTime();
-//                        workRequest = new PeriodicWorkRequest.Builder(MailSender.class,timeInter , TimeUnit.MILLISECONDS)
-//                                .setInputData(dataObject.dataReturn()).build();
-//                        Log.v("Middle Mail", "work request created and applied");
-//                        workManager.enqueue(workRequest);
-//
-//                    }

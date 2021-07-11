@@ -2,10 +2,8 @@ package com.example.hackedin;
 
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.work.Data;
-import androidx.work.ListenableWorker;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -16,6 +14,7 @@ public class MailSender extends Worker {
     String bodyData;
     String subData;
     int  deleteType;
+    int emailType;
     Context context;
     WorkerParameters workerParameters;
 
@@ -35,14 +34,11 @@ public class MailSender extends Worker {
         ccData=inputData.getString("Cc");
         subData=inputData.getString("Subject");
         bodyData=inputData.getString("Body");
+        emailType=inputData.getInt("EmailType",0);
         deleteType=inputData.getInt("isDelete",0);
-        if(deleteType==1)
-        {
-            onStopped();
-            return Result.success();
-        }
+
         if(deleteType==0) {
-            sendMail sendmail = new sendMail(toData, ccData, subData, bodyData,getApplicationContext());
+            sendMail sendmail = new sendMail(toData, ccData, subData, bodyData);
             sendmail.toMail();
             Log.v("MailSender","Mailsent");
         }
